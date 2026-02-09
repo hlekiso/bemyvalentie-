@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine? 💕</title>
+    <title>For My Valentine 💕</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Georgia', serif;
+            font-family: 'Courier New', Courier, monospace;
             background: linear-gradient(135deg, #E8D5C4 0%, #F5E6DC 100%);
             min-height: 100vh;
             display: flex;
@@ -23,19 +23,52 @@
 
         .container {
             text-align: center;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.9);
+            padding: 50px 40px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-100px); }
+        }
+
+        .page.sliding-out {
+            animation: slideOut 0.5s ease-out forwards;
         }
 
         h1 {
             color: #C4907C;
             font-size: 2.5em;
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease-in;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .reason-number {
+            color: #FFB6C1;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .heart {
@@ -50,49 +83,67 @@
             50% { transform: scale(1.1); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes confetti {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-
         .message {
-            font-size: 1.3em;
+            font-size: 1.35em;
             color: #8B6F5C;
-            margin: 20px 0;
-            line-height: 1.6;
+            margin: 25px 0;
+            line-height: 1.8;
+        }
+
+        .next-btn {
+            margin-top: 40px;
+            padding: 15px 50px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+            color: #8B4858;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
         }
 
         .buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 35px;
+            flex-wrap: wrap;
         }
 
-        button {
+        .yes-btn {
             padding: 15px 40px;
             font-size: 1.2em;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .yes-btn {
             background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
             color: #8B4858;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         .yes-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
+        }
+
+        .progress {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #C4907C;
+            font-size: 0.9em;
+            font-weight: bold;
         }
 
         .hidden {
@@ -107,18 +158,9 @@
             animation: confetti 3s linear forwards;
         }
 
-        .success-page {
-            animation: fadeIn 1s ease-in;
-        }
-
-        .success-page h1 {
-            color: #C4907C;
-            font-size: 3em;
-        }
-
-        .success-page .message {
-            font-size: 1.5em;
-            margin-top: 30px;
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
         .hearts-float {
@@ -132,28 +174,82 @@
             0%, 100% { transform: translateY(0) translateX(0); }
             50% { transform: translateY(-20px) translateX(10px); }
         }
+
+        .intro-text {
+            font-size: 1.2em;
+            color: #8B6F5C;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <!-- Question Page -->
-    <div id="questionPage" class="container">
-        <h1>hey my baby 💕</h1>
-        <div class="heart">❤️</div>
-        <p class="message">
-            you make every day brighter and my heart so full, you mean the world to me.
-        </p>
-        <p class="message" style="margin-top: 25px; font-size: 1.4em;">
-            will you pleaseeee be my valentine?
-        </p>
-        <div class="buttons">
-            <button class="yes-btn" onclick="celebrate()">yes! 💖</button>
-            <button class="yes-btn" onclick="celebrate()"> yes again, you cannot say no 💖</button>
+    <!-- Start Page -->
+    <div id="page0" class="page active">
+        <div class="container">
+            <h1>hey my baby 💕</h1>
+            <div class="heart">❤️</div>
+            <p class="intro-text">
+                before i ask you something important...<br>
+                there are a couple things i need to tell you
+            </p>
+            <button class="next-btn" onclick="nextPage(0)">let's go 💖</button>
+        </div>
+    </div>
+
+    <!-- Page 1: Reason 1 -->
+    <div id="page1" class="page">
+        <div class="container">
+            <div class="progress">1 of 2</div>
+            <div class="reason-number">reason one</div>
+            <h1>Your Laugh is Everything to Me</h1>
+            <div class="heart">😊</div>
+            <p class="message">
+                The way you laugh at my terrible jokes makes my whole world brighter. 
+                Even when I know the joke is bad, seeing you smile and hearing that 
+                laugh reminds me why I fell for you. You make even the silliest moments 
+                feel special, and I love how you find joy in the little things we share together.
+            </p>
+            <button class="next-btn" onclick="nextPage(1)">next 💕</button>
+        </div>
+    </div>
+
+    <!-- Page 2: Reason 2 -->
+    <div id="page2" class="page">
+        <div class="container">
+            <div class="progress">2 of 2</div>
+            <div class="reason-number">reason two</div>
+            <h1>You're Always There for Me</h1>
+            <div class="heart">🤝</div>
+            <p class="message">
+                Your support means everything to me. Whether I'm chasing a dream or 
+                going through a tough time, you're always in my corner. You believe 
+                in me even when I don't believe in myself, and you lift me up in 
+                ways I never knew I needed. Having you by my side makes me feel like 
+                I can take on anything.
+            </p>
+            <button class="next-btn" onclick="nextPage(2)">and now... 💖</button>
+        </div>
+    </div>
+
+    <!-- Final Question Page -->
+    <div id="page3" class="page">
+        <div class="container">
+            <h1>so here's my question...</h1>
+            <div class="heart">💕</div>
+            <p class="message" style="font-size: 1.5em; font-weight: bold;">
+                will you be my valentine?
+            </p>
+            <div class="buttons">
+                <button class="yes-btn" onclick="celebrate()">yes! 💖</button>
+                <button class="yes-btn" onclick="celebrate()">yes again, you can't say no 💖</button>
+            </div>
         </div>
     </div>
 
     <!-- Success Page -->
-    <div id="successPage" class="container hidden">
-        <div class="success-page">
+    <div id="successPage" class="page">
+        <div class="container">
             <h1>congratulations! 🎉</h1>
             <div class="heart">💕</div>
             <p class="message">
@@ -171,14 +267,38 @@
     </audio>
 
     <script>
+        let currentPage = 0;
+
+        function nextPage(pageNum) {
+            // Play music on first interaction
+            const music = document.getElementById('music');
+            if (music.paused) {
+                music.play().catch(e => console.log('Music autoplay prevented'));
+            }
+
+            // Slide out current page
+            const current = document.getElementById('page' + pageNum);
+            current.classList.add('sliding-out');
+
+            // After animation, switch pages
+            setTimeout(() => {
+                current.classList.remove('active', 'sliding-out');
+                
+                const nextPageNum = pageNum + 1;
+                const next = document.getElementById('page' + nextPageNum);
+                next.classList.add('active');
+                currentPage = nextPageNum;
+            }, 500);
+        }
+
         function celebrate() {
             // Play music
             const music = document.getElementById('music');
             music.play().catch(e => console.log('Music autoplay prevented'));
 
             // Hide question, show success
-            document.getElementById('questionPage').classList.add('hidden');
-            document.getElementById('successPage').classList.remove('hidden');
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('successPage').classList.add('active');
 
             // Create confetti
             for (let i = 0; i < 100; i++) {
