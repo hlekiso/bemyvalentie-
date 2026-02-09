@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #E8D5C4 0%, #F5E6DC 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #C4907C;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .heart {
+            font-size: 4em;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .message {
+            font-size: 1.3em;
+            color: #8B6F5C;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+            color: #8B4858;
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #FFB6C1;
+            animation: confetti 3s linear forwards;
+        }
+
+        .success-page {
+            animation: fadeIn 1s ease-in;
+        }
+
+        .success-page h1 {
+            color: #C4907C;
+            font-size: 3em;
+        }
+
+        .success-page .message {
+            font-size: 1.5em;
+            margin-top: 30px;
+        }
+
+        .hearts-float {
+            position: fixed;
+            font-size: 2em;
+            animation: float 4s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Question Page -->
+    <div id="questionPage" class="container">
+        <h1>hey my baby 💕</h1>
+        <div class="heart">❤️</div>
+        <p class="message">
+            you make every day brighter and my heart so full, you mean the world to me.
+        </p>
+        <p class="message" style="margin-top: 25px; font-size: 1.4em;">
+            will you pleaseeee be my valentine?
+        </p>
+        <div class="buttons">
+            <button class="yes-btn" onclick="celebrate()">yes! 💖</button>
+            <button class="yes-btn" onclick="celebrate()"> yes again, you cannot say no 💖</button>
+        </div>
+    </div>
+
+    <!-- Success Page -->
+    <div id="successPage" class="container hidden">
+        <div class="success-page">
+            <h1>congratulations! 🎉</h1>
+            <div class="heart">💕</div>
+            <p class="message">
+                you are now officially my valentine! ❤️
+            </p>
+            <p class="message" style="font-size: 1.1em; margin-top: 20px;">
+                i'm so lucky to have you 💖
+            </p>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="music" loop>
+        <source src="mybaby.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function celebrate() {
+            // Play music
+            const music = document.getElementById('music');
+            music.play().catch(e => console.log('Music autoplay prevented'));
+
+            // Hide question, show success
+            document.getElementById('questionPage').classList.add('hidden');
+            document.getElementById('successPage').classList.remove('hidden');
+
+            // Create confetti
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 30);
+            }
+
+            // Create floating hearts
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createFloatingHeart();
+                }, i * 500);
+            }
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti-piece');
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.background = ['#FFB6C1', '#FFC0CB', '#FF69B4', '#C4907C'][Math.floor(Math.random() * 4)];
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('hearts-float');
+            heart.textContent = '💕';
+            heart.style.left = Math.random() * 90 + 'vw';
+            heart.style.top = Math.random() * 90 + 'vh';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Try to play music on any user interaction
+        document.addEventListener('click', function() {
+            const music = document.getElementById('music');
+            if (music.paused) {
+                music.play().catch(e => console.log('Music play failed'));
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
